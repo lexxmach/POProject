@@ -1,0 +1,25 @@
+{
+    "port": 8000,
+    "title": "Yet Another Shortener v1",
+    "version": "0.0.1",
+
+    "db": {
+        "mock": false,
+
+        "host": "db",
+        "user": "postgres",
+        "password": "postgres",
+        "port": 5432
+    },
+
+    "url_settings": {
+        "min_len": 5,
+        "max_len": 16,
+        "retries": 5,
+        "runes": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    },
+
+    "follow_link": "localhost:8000/follow",
+    "jwt_secret": "some_secret",
+    "log_level": "DEBUG"
+}

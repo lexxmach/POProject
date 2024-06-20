@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5010:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+    networks:
+      - common_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  shortener:
+    container_name: shortener
+    build:
+      context: ../
+      dockerfile: ./build/shortener/Dockerfile
+    image: shortener
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    networks:
+      - common_network
+    restart: unless-stopped
+
+volumes:
+  db:
+    driver: local
+networks:
+  common_network:
